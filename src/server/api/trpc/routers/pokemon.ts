@@ -9,6 +9,7 @@ export const pokemonRouter = t.router({
     getOne: t.procedure
         .input(z.string())
         .query(async ({ input }) => {
+            console.log('🚀 getOne called with:', input); 
             const pokemon = await prisma.pokemon.findUnique({
                 where: { name: input },
                 include: { types: true }, // Include related types
