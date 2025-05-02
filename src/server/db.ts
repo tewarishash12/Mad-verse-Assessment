@@ -1,11 +1,17 @@
 // server/db.ts
 import { PrismaClient } from '@prisma/client';
 
+// Augment the global object type
 declare global {
-    // Allow global Prisma client reuse in dev
-    var prisma: PrismaClient | undefined;
+    const prisma: PrismaClient | undefined;
 }
 
-export const prisma = global.prisma || new PrismaClient();
+const globalForPrisma = globalThis as typeof globalThis & {
+    prisma: PrismaClient | undefined;
+};
 
-if (process.env.NODE_ENV !== 'production') global.prisma = prisma;
+export const prisma = globalForPrisma.prisma ?? new PrismaClient();
+
+if (process.env.NODE_ENV !== 'production') {
+    globalForPrisma.prisma = prisma;
+}

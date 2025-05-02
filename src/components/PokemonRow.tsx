@@ -2,14 +2,16 @@
 import React from 'react';
 import { TableRow, TableCell, Avatar } from '@mui/material';
 
-type PokemonRowProps = {
-    id: number;
-    name: string;
-    types: string[];
-    sprite: string;
-};
-
-export const PokemonRow: React.FC<PokemonRowProps> = ({ id, name, types, sprite }) => {
+export interface PokemonRowProps {
+    pokemon: {
+        id: number;
+        name: string;
+        types: string[];
+        sprite: string;
+    };
+}
+export const PokemonRow: React.FC<PokemonRowProps> = ({ pokemon }) => {
+    const { id, name, types, sprite } = pokemon;
     return (
         <TableRow>
             <TableCell>{id}</TableCell>

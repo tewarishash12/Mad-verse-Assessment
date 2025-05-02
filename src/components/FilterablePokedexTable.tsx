@@ -1,7 +1,7 @@
 // components/FilterablePokedexTable.tsx
-import React, { useState } from 'react';
-import { PokemonTypeSelection } from './PokemonTypeSelection';
-import { PokedexTable } from "./PokedexTable"
+import React from 'react';
+import { Table, TableHead, TableRow, TableCell, TableBody, Paper, TableContainer, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
+import { SelectChangeEvent } from '@mui/material';
 
 type Pokemon = {
     id: number;
@@ -11,28 +11,54 @@ type Pokemon = {
 };
 
 type FilterablePokedexTableProps = {
-    allPokemon: Pokemon[];
-    availableTypes: string[];
+    pokemonList: Pokemon[];
+    selectedType: string | undefined;
+    selectType: React.Dispatch<React.SetStateAction<string | undefined>>;
 };
 
-export const FilterablePokedexTable: React.FC<FilterablePokedexTableProps> = ({
-    allPokemon,
-    availableTypes,
-}) => {
-    const [selectedType, setSelectedType] = useState<string | undefined>(undefined);
-
-    const filteredPokemon = selectedType
-        ? allPokemon.filter((p) => p.types.includes(selectedType))
-        : allPokemon;
+export const FilterablePokedexTable: React.FC<FilterablePokedexTableProps> = ({pokemonList,selectedType,selectType}) => {
+    
+    const handleTypeChange = (event: SelectChangeEvent<string>) => {
+        selectType(event.target.value);
+    };
 
     return (
         <div>
-            <PokemonTypeSelection
-                selectedType={selectedType}
-                selectType={setSelectedType}
-                availableTypes={availableTypes}
-            />
-            <PokedexTable pokemonList={filteredPokemon} />
+            <FormControl fullWidth sx={{ marginBottom: 2 }}>
+                <InputLabel>Filter by Type</InputLabel>
+                <Select
+                    value={selectedType || ''}
+                    onChange={handleTypeChange}
+                    label="Filter by Type"
+                >
+                    <MenuItem value="">All</MenuItem>
+                    <MenuItem value="Fire">Fire</MenuItem>
+                    <MenuItem value="Water">Water</MenuItem>
+                    <MenuItem value="Grass">Grass</MenuItem>
+                    {/* Add more types as needed */}
+                </Select>
+            </FormControl>
+
+            <TableContainer component={Paper} sx={{ maxHeight: 500 }}>
+                <Table stickyHeader>
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>ID</TableCell>
+                            <TableCell>Name</TableCell>
+                            <TableCell>Types</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {pokemonList.map((pokemon) => (
+                            <TableRow key={pokemon.id}>
+                                <TableCell>{pokemon.id}</TableCell>
+                                <TableCell>{pokemon.name}</TableCell>
+                                <TableCell>{pokemon.types.join(', ')}</TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
         </div>
     );
 };

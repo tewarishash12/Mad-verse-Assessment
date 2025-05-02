@@ -27,7 +27,7 @@ export const PokedexTable: React.FC<PokedexTableProps> = ({ pokemonList }) => {
                 </TableHead>
                 <TableBody>
                     {pokemonList.map((pokemon) => (
-                        <PokemonRow key={pokemon.id} {...pokemon} />
+                        <PokemonRow key={pokemon.id} pokemon={pokemon} />
                     ))}
                 </TableBody>
             </Table>

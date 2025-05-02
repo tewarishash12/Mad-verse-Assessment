@@ -2,7 +2,7 @@
 import React from 'react';
 import { Inter } from 'next/font/google';
 import { CssBaseline, Container } from '@mui/material';
-import { TRPCProvider } from '@/components/TRPCProvider';
+import { TRPCProvider } from "@/components/TRPCProvider";
 
 const inter = Inter({ subsets: ['latin'] });
 
