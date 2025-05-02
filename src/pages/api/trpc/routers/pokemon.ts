@@ -1,6 +1,6 @@
 // server/api/trpc/routers/pokemon.ts
 import { z } from 'zod';
-import { prisma } from '../../../../src/server/db';
+import { prisma } from '@/server/db';
 import { initTRPC } from '@trpc/server';
 
 const t = initTRPC.create();
