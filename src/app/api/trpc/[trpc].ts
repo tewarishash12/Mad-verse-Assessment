@@ -1,15 +1,16 @@
 // src/app/api/trpc/route.ts
-import { appRouter } from '.';
+import { appRouter } from '@/app/api/trpc/index';
 import { fetchRequestHandler } from '@trpc/server/adapters/fetch';
 
-console.log('API route is being hit'); 
-
-const handler = (req: Request) =>
-    fetchRequestHandler({
+const handler = (req: Request) => {
+    console.log('Incoming TRPC request', req.method, req.url);
+    return fetchRequestHandler({
         endpoint: '/api/trpc',
         req,
         router: appRouter,
         createContext: () => ({}),
     });
+};
+
 
 export { handler as GET, handler as POST };
