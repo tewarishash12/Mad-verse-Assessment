@@ -1,5 +1,5 @@
 // src/app/api/trpc/route.ts
-import { appRouter } from '@/server/api/trpc';
+import { appRouter } from '.';
 import { fetchRequestHandler } from '@trpc/server/adapters/fetch';
 
 console.log('API route is being hit'); 
