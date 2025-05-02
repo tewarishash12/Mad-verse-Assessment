@@ -1,22 +1,20 @@
-// prisma/seed.ts
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
 async function main() {
     const types = ['grass', 'fire', 'water', 'electric', 'bug'];
+    const typeMap: Record<string, { id: number }> = {};
 
-    const typeMap = {} as Record<string, { id: number }>;
-
-    // Create types
+    // Step 1: Create types
     for (const typeName of types) {
         const type = await prisma.type.create({
             data: { name: typeName },
         });
-        typeMap[typeName] = type;
+        typeMap[typeName] = { id: type.id };  // Correct way to store type IDs
     }
 
-    // Create Pokémon
+    // Step 2: Create Pokémon
     await prisma.pokemon.createMany({
         data: [
             {
@@ -34,40 +32,35 @@ async function main() {
         ],
     });
 
+    // Step 3: Retrieve created Pokémon
     const bulbasaur = await prisma.pokemon.findUnique({ where: { name: 'Bulbasaur' } });
     const charmander = await prisma.pokemon.findUnique({ where: { name: 'Charmander' } });
     const squirtle = await prisma.pokemon.findUnique({ where: { name: 'Squirtle' } });
 
-    // Connect types manually (due to M:N relation)
+    // Step 4: Create PokemonType join records manually
     if (bulbasaur) {
-        await prisma.pokemon.update({
-            where: { id: bulbasaur.id },
+        await prisma.pokemonType.create({
             data: {
-                types: {
-                    connect: [{ id: typeMap['grass'].id }],
-                },
+                pokemonId: bulbasaur.id,
+                typeId: typeMap['grass'].id, // Ensure you're using the correct type ID
             },
         });
     }
 
     if (charmander) {
-        await prisma.pokemon.update({
-            where: { id: charmander.id },
+        await prisma.pokemonType.create({
             data: {
-                types: {
-                    connect: [{ id: typeMap['fire'].id }],
-                },
+                pokemonId: charmander.id,
+                typeId: typeMap['fire'].id,
             },
         });
     }
 
     if (squirtle) {
-        await prisma.pokemon.update({
-            where: { id: squirtle.id },
+        await prisma.pokemonType.create({
             data: {
-                types: {
-                    connect: [{ id: typeMap['water'].id }],
-                },
+                pokemonId: squirtle.id,
+                typeId: typeMap['water'].id,
             },
         });
     }

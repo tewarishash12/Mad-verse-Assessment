@@ -10,14 +10,22 @@ datasource db {
 }
 
 model Pokemon {
-  id      Int      @id @default(autoincrement())
-  name    String   @unique
-  types   Type[]
-  sprite  String
+  id       Int            @id @default(autoincrement())
+  name     String         @unique
+  sprite   String
+  types    PokemonType[]  // 👈 Add this reverse relation
 }
 
 model Type {
-  id        Int       @id @default(autoincrement())
-  name      String
-  pokemon   Pokemon[] 
+  id       Int            @id @default(autoincrement())
+  name     String
+  pokemon  PokemonType[]  // 👈 Add this reverse relation
+}
+
+model PokemonType {
+  id         Int      @id @default(autoincrement())
+  pokemon    Pokemon  @relation(fields: [pokemonId], references: [id])
+  pokemonId  Int
+  type       Type     @relation(fields: [typeId], references: [id])
+  typeId     Int
 }

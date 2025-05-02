@@ -22,7 +22,10 @@ export default function SinglePokemonPage() {
                 onChange={(e) => setName(e.target.value)}
                 sx={{ marginRight: 2 }}
             />
-            <Button variant="contained" onClick={() => setQueryName(name)}>
+            <Button
+                variant="contained"
+                onClick={() => setQueryName(name.trim())}
+            >
                 Fetch
             </Button>
 
