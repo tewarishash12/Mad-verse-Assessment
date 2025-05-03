@@ -69,7 +69,6 @@ export const pokemonRouter = t.router({
     getByType: t.procedure
         .input(z.string().optional())
         .query(async ({ input }) => {
-            console.log("🧪 [getByType] Input type filter:", input);
 
             const whereClause = input
                 ? {
@@ -88,8 +87,6 @@ export const pokemonRouter = t.router({
                 }
                 : {};
 
-            console.log("🔍 [getByType] Where clause:", JSON.stringify(whereClause, null, 2));
-
             const pokemons = await prisma.pokemon.findMany({
                 where: whereClause,
                 include: {
@@ -101,16 +98,12 @@ export const pokemonRouter = t.router({
                 },
             });
 
-            console.log("📦 [getByType] Raw DB result:", pokemons);
-
             const mapped = pokemons.map((p) => ({
                 id: p.id,
                 name: p.name,
                 types: p.types.map((t) => t.type.name),
                 sprite: p.sprite,
             }));
-
-            console.log("🗺️ [getByType] Mapped result:", mapped);
 
             return mapped;
         }),
