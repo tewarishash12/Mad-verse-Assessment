@@ -20,9 +20,9 @@ export const PokedexTable: React.FC<PokedexTableProps> = ({ pokemonList }) => {
             sx={{
                 maxHeight: 500,
                 borderRadius: '10px',
-                backgroundColor: '#f9f9f9', // Lighter background to resemble a book page
-                boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', // Subtle shadow for depth
-                color: '#000', // Black text for better readability
+                backgroundColor: '#f9f9f9',
+                boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+                color: '#000', 
                 padding: 2,
                 marginTop: 4,
                 marginBottom: 4,
@@ -30,7 +30,7 @@ export const PokedexTable: React.FC<PokedexTableProps> = ({ pokemonList }) => {
             }}
         >
             <Table stickyHeader sx={{ borderCollapse: 'collapse' }}>
-                <TableHead sx={{ backgroundColor: '#1A237E' }}> {/* Deep blue to mimic book theme */}
+                <TableHead sx={{ backgroundColor: '#1A237E' }}>
                     <TableRow>
                         <TableCell sx={{ fontWeight: 'bold', color: 'gray', fontFamily: 'serif' }}>ID</TableCell>
                         <TableCell sx={{ fontWeight: 'bold', color: 'gray', fontFamily: 'serif' }}>Name</TableCell>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, TableHead, TableRow, TableCell, TableBody, Paper, TableContainer, Select, MenuItem, FormControl, InputLabel, Button } from '@mui/material';
+import { Table, TableHead, TableRow, TableCell, TableBody, Paper, TableContainer, Select, MenuItem, FormControl, InputLabel, Skeleton } from '@mui/material';
 import { SelectChangeEvent } from '@mui/material';
 
 type Pokemon = {
@@ -13,6 +13,7 @@ type FilterablePokedexTableProps = {
     pokemonList: Pokemon[];
     selectedType: string | undefined;
     selectType: React.Dispatch<React.SetStateAction<string | undefined>>;
+    isLoading: boolean;
 };
 
 const pokemonTypes = [
@@ -21,7 +22,7 @@ const pokemonTypes = [
     'Dark', 'Dragon', 'Steel', 'Fairy'
 ];
 
-export const FilterablePokedexTable: React.FC<FilterablePokedexTableProps> = ({ pokemonList, selectedType, selectType }) => {
+export const FilterablePokedexTable: React.FC<FilterablePokedexTableProps> = ({ pokemonList, selectedType, selectType, isLoading }) => {
 
     const handleTypeChange = (event: SelectChangeEvent<string>) => {
         selectType(event.target.value);
@@ -29,7 +30,6 @@ export const FilterablePokedexTable: React.FC<FilterablePokedexTableProps> = ({ 
 
     return (
         <div style={{ padding: '20px', backgroundColor: '#f5f5f5', borderRadius: '10px', color: '#000', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }}>
-            {/* Filter Dropdown */}
             <FormControl fullWidth sx={{ marginBottom: 3 }}>
                 <InputLabel sx={{ color: '#1A237E' }}>Filter by Type</InputLabel>
                 <Select
@@ -52,7 +52,6 @@ export const FilterablePokedexTable: React.FC<FilterablePokedexTableProps> = ({ 
                 </Select>
             </FormControl>
 
-            {/* Pokémon Table */}
             <TableContainer component={Paper} sx={{ maxHeight: 500, borderRadius: '10px', boxShadow: '0 4px 8px rgba(0,0,0,0.2)', backgroundColor: '#fff' }}>
                 <Table stickyHeader sx={{ borderCollapse: 'collapse' }}>
                     <TableHead>
@@ -63,43 +62,43 @@ export const FilterablePokedexTable: React.FC<FilterablePokedexTableProps> = ({ 
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {pokemonList.map((pokemon) => (
-                            <TableRow
-                                key={pokemon.id}
-                                sx={{
-                                    '&:hover': {
-                                        boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)',
-                                        cursor: 'pointer',
-                                    },
-                                    '& td': {
-                                        borderBottom: '1px solid #ddd',
-                                    },
-                                }}
-                            >
-                                <TableCell sx={{ color: '#000' }}>{pokemon.id}</TableCell>
-                                <TableCell sx={{ color: '#000' }}>{pokemon.name}</TableCell>
-                                <TableCell sx={{ color: '#000' }}>{pokemon.types.join(', ')}</TableCell>
-                            </TableRow>
-                        ))}
+                        {isLoading ? (
+                            Array.from({ length: 5 }).map((_, index) => (
+                                <TableRow key={index}>
+                                    <TableCell>
+                                        <Skeleton variant="text" width={50} />
+                                    </TableCell>
+                                    <TableCell>
+                                        <Skeleton variant="text" width={120} />
+                                    </TableCell>
+                                    <TableCell>
+                                        <Skeleton variant="text" width={180} />
+                                    </TableCell>
+                                </TableRow>
+                            ))
+                        ) : (
+                            pokemonList.map((pokemon) => (
+                                <TableRow
+                                    key={pokemon.id}
+                                    sx={{
+                                        '&:hover': {
+                                            boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)',
+                                            cursor: 'pointer',
+                                        },
+                                        '& td': {
+                                            borderBottom: '1px solid #ddd',
+                                        },
+                                    }}
+                                >
+                                    <TableCell sx={{ color: '#000' }}>{pokemon.id}</TableCell>
+                                    <TableCell sx={{ color: '#000' }}>{pokemon.name}</TableCell>
+                                    <TableCell sx={{ color: '#000' }}>{pokemon.types.join(', ')}</TableCell>
+                                </TableRow>
+                            ))
+                        )}
                     </TableBody>
                 </Table>
             </TableContainer>
-
-            {/* View More Button */}
-            <Button
-                variant="contained"
-                sx={{
-                    backgroundColor: '#FFEB3B',
-                    color: '#000',
-                    fontWeight: 'bold',
-                    marginTop: 2,
-                    '&:hover': {
-                        backgroundColor: '#FBC02D',
-                    },
-                }}
-            >
-                View More Pokémon
-            </Button>
         </div>
     );
 };

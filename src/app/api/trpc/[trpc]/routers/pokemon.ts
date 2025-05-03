@@ -10,11 +10,11 @@ export const pokemonRouter = t.router({
         .input(z.string())
         .query(async ({ input }) => {
 
-            const pokemon = await prisma.pokemon.findFirst({
+            const pokemons = await prisma.pokemon.findMany({
                 where: {
                     name: {
                         startsWith: input,
-                        mode: 'insensitive', // This makes the query case-insensitive
+                        mode: 'insensitive', 
                     },
                 },
                 include: {
@@ -26,16 +26,15 @@ export const pokemonRouter = t.router({
                 },
             });
 
-            if (!pokemon) throw new Error('Pokemon not found');
+            if (!pokemons) throw new Error('Pokemon not found');
 
-            const result = {
+            const result = pokemons.map((pokemon) => ({
                 id: pokemon.id,
                 name: pokemon.name,
                 types: pokemon.types.map((t) => t.type.name),
                 sprite: pokemon.sprite,
-            };
-
-            console.log('✅ Final response sent:', result);
+            }));
+            
             return result;
         }),
 
@@ -80,7 +79,7 @@ export const pokemonRouter = t.router({
                                 is: {
                                     name: {
                                         equals: input,
-                                        mode: Prisma.QueryMode.insensitive, // ✅ This now works with 'is'
+                                        mode: Prisma.QueryMode.insensitive, 
                                     },
                                 },
                             },

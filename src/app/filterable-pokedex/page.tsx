@@ -3,27 +3,27 @@
 import { useState } from 'react';
 import { trpc } from '@/lib/trpc';
 import { FilterablePokedexTable } from '@/components/FilterablePokedexTable';
+import { CircularProgress, Box } from '@mui/material';
 
 export default function FilterablePokedexPage() {
     const [selectedType, setSelectedType] = useState<string | undefined>();
 
-    const { data: filteredPokemon } = trpc.pokemon.getByType.useQuery(selectedType);
+    const { data: filteredPokemon, isLoading } = trpc.pokemon.getByType.useQuery(selectedType);
 
     return (
         <div
             style={{
                 padding: '40px',
-                backgroundColor: '#f8f5f0', // Neutral parchment-like background
+                backgroundColor: '#f8f5f0', 
                 minHeight: '100vh',
-                fontFamily: 'serif', // Book-like font
-                color: '#1A237E', // Deep blue text
+                fontFamily: 'serif',
+                color: '#1A237E', 
             }}
         >
-            {/* Title/Header */}
             <h1
                 style={{
                     textAlign: 'center',
-                    color: '#B71C1C', // Deep red for heading
+                    color: '#B71C1C', 
                     fontSize: '3rem',
                     marginBottom: '40px',
                     fontWeight: 700,
@@ -33,7 +33,6 @@ export default function FilterablePokedexPage() {
                 Pokédex: Type Explorer
             </h1>
 
-            {/* Book-like Page Wrapper */}
             <div
                 style={{
                     backgroundColor: '#ffffff',
@@ -45,11 +44,18 @@ export default function FilterablePokedexPage() {
                     border: '1px solid #e0dcdc',
                 }}
             >
-                <FilterablePokedexTable
-                    pokemonList={filteredPokemon ?? []}
-                    selectedType={selectedType}
-                    selectType={setSelectedType}
-                />
+                {isLoading ? (
+                    <Box sx={{ display: 'flex', justifyContent: 'center', padding: '50px' }}>
+                        <CircularProgress color="secondary" size={80} />
+                    </Box>
+                ) : (
+                    <FilterablePokedexTable
+                        pokemonList={filteredPokemon ?? []}
+                        selectedType={selectedType}
+                        selectType={setSelectedType}
+                        isLoading={isLoading}
+                    />
+                )}
             </div>
         </div>
     );

@@ -6,18 +6,15 @@ import fs from 'fs';
 const prisma = new PrismaClient();
 
 async function main() {
-    // Load Pokémon data from local JSON file
     const rawData = fs.readFileSync('pokemon.json', 'utf-8');
     const pokedex = JSON.parse(rawData);
 
-    // Step 1: Collect unique types
     const typeSet = new Set<string>();
     for (const pokemon of pokedex) {
         pokemon.types.forEach((type: string) => typeSet.add(type));
     }
     const types = Array.from(typeSet);
 
-    // Step 2: Seed types
     const typeMap: Record<string, number> = {};
     for (const typeName of types) {
         const type = await prisma.type.create({
@@ -26,7 +23,6 @@ async function main() {
         typeMap[typeName] = type.id;
     }
 
-    // Step 3: Seed Pokémon
     for (const pokemon of pokedex) {
         const createdPokemon = await prisma.pokemon.create({
             data: {

@@ -17,20 +17,20 @@ export const PokemonRow: React.FC<PokemonRowProps> = ({ pokemon }) => {
         <TableRow
             sx={{
                 '&:hover': {
-                    transform: 'scale(1.03)', // Slight scale-up effect for a page-flipping feel
-                    transition: 'transform 0.3s ease-in-out', // Smooth transition
-                    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)', // Light shadow to mimic depth
+                    transform: 'scale(1.03)', 
+                    transition: 'transform 0.3s ease-in-out', 
+                    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)', 
                     cursor: 'pointer',
-                    backgroundColor: '#F9F9F9', // Light background color on hover, like flipping a page
+                    backgroundColor: '#F9F9F9', 
                 },
             }}
         >
             <TableCell
                 sx={{
-                    color: '#1A237E', // Dark blue for the text, reminiscent of book text
+                    color: '#1A237E',
                     fontWeight: 'bold',
-                    fontFamily: 'serif', // Serif font for a more book-like feel
-                    padding: '10px 20px', // Padding for a cleaner look
+                    fontFamily: 'serif',
+                    padding: '10px 20px',
                 }}
             >
                 {id}
@@ -39,7 +39,7 @@ export const PokemonRow: React.FC<PokemonRowProps> = ({ pokemon }) => {
                 sx={{
                     display: 'flex',
                     alignItems: 'center',
-                    color: '#1A237E', // Dark blue for the name, tying it to the book's theme
+                    color: '#1A237E', 
                     fontWeight: 'bold',
                     fontFamily: 'serif',
                     padding: '10px 20px',
@@ -48,13 +48,13 @@ export const PokemonRow: React.FC<PokemonRowProps> = ({ pokemon }) => {
                 <Avatar
                     alt={name}
                     src={sprite}
-                    sx={{ width: 50, height: 50, mr: 2, border: '2px solid #E53935' }} // Slightly larger avatar with a border
+                    sx={{ width: 50, height: 50, mr: 2, border: '2px solid #E53935' }} 
                 />
                 {name}
             </TableCell>
             <TableCell
                 sx={{
-                    color: '#1A237E', // Dark blue for the types
+                    color: '#1A237E',
                     fontWeight: 'bold',
                     fontFamily: 'serif',
                     padding: '10px 20px',

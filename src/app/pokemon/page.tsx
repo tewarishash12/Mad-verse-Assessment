@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { TextField, Button, Box, CircularProgress } from '@mui/material';
+import { TextField, Button, Box, CircularProgress, Table, TableBody, TableHead, TableRow, TableCell } from '@mui/material';
 import { trpc } from '@/lib/trpc';
 import { PokemonRow } from '@/components/PokemonRow';
 
@@ -17,17 +17,16 @@ export default function SinglePokemonPage() {
         <Box
             sx={{
                 padding: '40px',
-                backgroundColor: '#f8f5f0', // Light parchment
+                backgroundColor: '#f8f5f0', 
                 minHeight: '100vh',
                 fontFamily: 'serif',
                 color: '#1A237E',
             }}
         >
-            {/* Title/Header */}
             <h1
                 style={{
                     textAlign: 'center',
-                    color: '#B71C1C', // Deep red
+                    color: '#B71C1C',
                     fontSize: '3rem',
                     marginBottom: '40px',
                     fontWeight: 'bold',
@@ -37,7 +36,6 @@ export default function SinglePokemonPage() {
                 Search for a Pokémon
             </h1>
 
-            {/* Page-style Centered Form */}
             <Box
                 sx={{
                     maxWidth: 700,
@@ -48,7 +46,6 @@ export default function SinglePokemonPage() {
                     boxShadow: '0 10px 20px rgba(0,0,0,0.15)',
                 }}
             >
-                {/* Input Field and Button */}
                 <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                     <TextField
                         fullWidth
@@ -86,12 +83,26 @@ export default function SinglePokemonPage() {
                     </Button>
                 </Box>
 
-                {/* Result Display */}
                 <Box mt={5} sx={{ display: 'flex', justifyContent: 'center' }}>
                     {isLoading ? (
                         <CircularProgress color="secondary" />
                     ) : (
-                        data && <PokemonRow pokemon={data} />
+                        data && (
+                            <Table sx={{ width: '100%' }}>
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell>ID</TableCell>
+                                        <TableCell>Name</TableCell>
+                                        <TableCell>Types</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {data.map((pokemon) => (
+                                        <PokemonRow key={pokemon.id} pokemon={pokemon} />
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        )
                     )}
                 </Box>
             </Box>

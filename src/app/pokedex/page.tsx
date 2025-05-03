@@ -17,13 +17,12 @@ export default function MultiplePokemonPage() {
         <Box
             sx={{
                 padding: '40px',
-                backgroundColor: '#f8f5f0', // Book-page like background
+                backgroundColor: '#f8f5f0', 
                 minHeight: '100vh',
                 fontFamily: 'serif',
-                color: '#1A237E', // Deep blue for text
+                color: '#1A237E', 
             }}
         >
-            {/* Title/Header */}
             <h1
                 style={{
                     textAlign: 'center',
@@ -37,7 +36,6 @@ export default function MultiplePokemonPage() {
                 Pokédex Multi-Search
             </h1>
 
-            {/* Centered Input & Button Wrapper */}
             <Box
                 sx={{
                     backgroundColor: '#ffffff',
@@ -85,8 +83,6 @@ export default function MultiplePokemonPage() {
                 >
                     Fetch Pokémon
                 </Button>
-
-                {/* Loading and Table Output */}
                 <Box mt={6}>
                     {isLoading ? (
                         <Box sx={{ display: 'flex', justifyContent: 'center' }}>

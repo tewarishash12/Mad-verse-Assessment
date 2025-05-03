@@ -8,17 +8,16 @@ export default function HomePage() {
     <Box
       sx={{
         padding: '40px',
-        backgroundColor: '#f8f5f0', // Soft neutral background like book pages
+        backgroundColor: '#f8f5f0', 
         minHeight: '100vh',
         color: '#1A237E',
         fontFamily: 'serif',
       }}
     >
-      {/* Title */}
       <Typography
         variant="h2"
         sx={{
-          color: '#B71C1C', // Deep red for Pokédex feel
+          color: '#B71C1C', 
           marginBottom: '20px',
           fontWeight: 'bold',
           textAlign: 'center',
@@ -27,8 +26,7 @@ export default function HomePage() {
       >
         Welcome to the Pokédex!
       </Typography>
-
-      {/* Subtitle */}
+      
       <Typography
         variant="h5"
         sx={{
@@ -41,7 +39,6 @@ export default function HomePage() {
         Choose your next chapter:
       </Typography>
 
-      {/* Action Buttons */}
       <Box display="flex" flexDirection="column" alignItems="center" gap={3}>
         <Button
           variant="contained"

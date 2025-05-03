@@ -1,7 +1,5 @@
-// server/db.ts
 import { PrismaClient } from '@prisma/client';
 
-// Augment the global object type
 declare global {
     const prisma: PrismaClient | undefined;
 }
