@@ -1,4 +1,3 @@
-// app/page.tsx
 'use client';
 
 import { Box, Typography, Button } from '@mui/material';
@@ -6,22 +5,93 @@ import Link from 'next/link';
 
 export default function HomePage() {
   return (
-    <Box textAlign="center">
-      <Typography variant="h3" gutterBottom>
+    <Box
+      sx={{
+        padding: '40px',
+        backgroundColor: '#f8f5f0', // Soft neutral background like book pages
+        minHeight: '100vh',
+        color: '#1A237E',
+        fontFamily: 'serif',
+      }}
+    >
+      {/* Title */}
+      <Typography
+        variant="h2"
+        sx={{
+          color: '#B71C1C', // Deep red for Pokédex feel
+          marginBottom: '20px',
+          fontWeight: 'bold',
+          textAlign: 'center',
+          textShadow: '1px 1px #fff',
+        }}
+      >
         Welcome to the Pokédex!
       </Typography>
-      <Typography variant="h6" gutterBottom>
-        Choose an action below:
+
+      {/* Subtitle */}
+      <Typography
+        variant="h5"
+        sx={{
+          color: '#3E2723',
+          marginBottom: '50px',
+          textAlign: 'center',
+          fontStyle: 'italic',
+        }}
+      >
+        Choose your next chapter:
       </Typography>
 
-      <Box display="flex" gap={2} justifyContent="center" mt={4}>
-        <Button variant="contained" component={Link} href="/pokemon">
+      {/* Action Buttons */}
+      <Box display="flex" flexDirection="column" alignItems="center" gap={3}>
+        <Button
+          variant="contained"
+          component={Link}
+          href="/pokemon"
+          sx={{
+            backgroundColor: '#B71C1C',
+            color: '#fff',
+            fontWeight: 'bold',
+            fontSize: '1rem',
+            width: '250px',
+            '&:hover': {
+              backgroundColor: '#7f0000',
+            },
+          }}
+        >
           Get a Pokémon
         </Button>
-        <Button variant="contained" component={Link} href="/pokedex">
-          View Pokedex
+        <Button
+          variant="contained"
+          component={Link}
+          href="/pokedex"
+          sx={{
+            backgroundColor: '#B71C1C',
+            color: '#fff',
+            fontWeight: 'bold',
+            fontSize: '1rem',
+            width: '250px',
+            '&:hover': {
+              backgroundColor: '#7f0000',
+            },
+          }}
+        >
+          View Pokédex
         </Button>
-        <Button variant="contained" component={Link} href="/filterable-pokedex">
+        <Button
+          variant="contained"
+          component={Link}
+          href="/filterable-pokedex"
+          sx={{
+            backgroundColor: '#B71C1C',
+            color: '#fff',
+            fontWeight: 'bold',
+            fontSize: '1rem',
+            width: '250px',
+            '&:hover': {
+              backgroundColor: '#7f0000',
+            },
+          }}
+        >
           Filter by Type
         </Button>
       </Box>
