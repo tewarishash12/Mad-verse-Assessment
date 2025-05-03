@@ -1,76 +1,57 @@
+// seed.ts
+
 import { PrismaClient } from '@prisma/client';
+import fs from 'fs';
 
 const prisma = new PrismaClient();
 
 async function main() {
-    const types = ['grass', 'fire', 'water', 'electric', 'bug'];
-    const typeMap: Record<string, { id: number }> = {};
+    // Load Pokémon data from local JSON file
+    const rawData = fs.readFileSync('pokemon.json', 'utf-8');
+    const pokedex = JSON.parse(rawData);
 
-    // Step 1: Create types
+    // Step 1: Collect unique types
+    const typeSet = new Set<string>();
+    for (const pokemon of pokedex) {
+        pokemon.types.forEach((type: string) => typeSet.add(type));
+    }
+    const types = Array.from(typeSet);
+
+    // Step 2: Seed types
+    const typeMap: Record<string, number> = {};
     for (const typeName of types) {
         const type = await prisma.type.create({
             data: { name: typeName },
         });
-        typeMap[typeName] = { id: type.id };  // Correct way to store type IDs
+        typeMap[typeName] = type.id;
     }
 
-    // Step 2: Create Pokémon
-    await prisma.pokemon.createMany({
-        data: [
-            {
-                name: 'Bulbasaur',
-                sprite: 'https://pokemon.com/pictures/bulbasaur.png',
-            },
-            {
-                name: 'Charmander',
-                sprite: 'https://pokemon.com/pictures/charmander.png',
-            },
-            {
-                name: 'Squirtle',
-                sprite: 'https://pokemon.com/pictures/squirtle.png',
-            },
-        ],
-    });
-
-    // Step 3: Retrieve created Pokémon
-    const bulbasaur = await prisma.pokemon.findUnique({ where: { name: 'Bulbasaur' } });
-    const charmander = await prisma.pokemon.findUnique({ where: { name: 'Charmander' } });
-    const squirtle = await prisma.pokemon.findUnique({ where: { name: 'Squirtle' } });
-
-    // Step 4: Create PokemonType join records manually
-    if (bulbasaur) {
-        await prisma.pokemonType.create({
+    // Step 3: Seed Pokémon
+    for (const pokemon of pokedex) {
+        const createdPokemon = await prisma.pokemon.create({
             data: {
-                pokemonId: bulbasaur.id,
-                typeId: typeMap['grass'].id, // Ensure you're using the correct type ID
+                id: pokemon.natdex,
+                name: pokemon.name,
+                sprite: pokemon.sprite,
             },
         });
+
+        for (const typeName of pokemon.types) {
+            await prisma.pokemonType.create({
+                data: {
+                    pokemonId: createdPokemon.id,
+                    typeId: typeMap[typeName],
+                },
+            });
+        }
     }
 
-    if (charmander) {
-        await prisma.pokemonType.create({
-            data: {
-                pokemonId: charmander.id,
-                typeId: typeMap['fire'].id,
-            },
-        });
-    }
-
-    if (squirtle) {
-        await prisma.pokemonType.create({
-            data: {
-                pokemonId: squirtle.id,
-                typeId: typeMap['water'].id,
-            },
-        });
-    }
-
-    console.log('✅ Seeded successfully');
+    console.log('✅ All Pokémon seeded successfully');
 }
 
 main()
     .catch((e) => {
-        console.error(e);
+        console.error('❌ Error seeding:', e);
         process.exit(1);
     })
     .finally(async () => {

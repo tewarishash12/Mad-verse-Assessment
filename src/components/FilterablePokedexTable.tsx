@@ -15,6 +15,12 @@ type FilterablePokedexTableProps = {
     selectType: React.Dispatch<React.SetStateAction<string | undefined>>;
 };
 
+const pokemonTypes = [
+    'Normal', 'Fire', 'Water', 'Grass', 'Electric', 'Ice', 'Fighting',
+    'Poison', 'Ground', 'Flying', 'Psychic', 'Bug', 'Rock', 'Ghost',
+    'Dark', 'Dragon', 'Steel', 'Fairy'
+];
+
 export const FilterablePokedexTable: React.FC<FilterablePokedexTableProps> = ({ pokemonList, selectedType, selectType }) => {
 
     const handleTypeChange = (event: SelectChangeEvent<string>) => {
@@ -38,10 +44,11 @@ export const FilterablePokedexTable: React.FC<FilterablePokedexTableProps> = ({ 
                     }}
                 >
                     <MenuItem value="">All</MenuItem>
-                    <MenuItem value="Fire">Fire</MenuItem>
-                    <MenuItem value="Water">Water</MenuItem>
-                    <MenuItem value="Grass">Grass</MenuItem>
-                    {/* Add more types as needed */}
+                    {pokemonTypes.map((type) => (
+                        <MenuItem key={type} value={type}>
+                            {type}
+                        </MenuItem>
+                    ))}
                 </Select>
             </FormControl>
 
